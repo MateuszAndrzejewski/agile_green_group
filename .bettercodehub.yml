@@ -1,0 +1,8 @@
+component_depth: 2
+languages:
+- php
+exclude:
+- /user_guide/.*
+- /system/.*
+- /database/.*
+- /assets/.*
