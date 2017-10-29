@@ -1,9 +1,10 @@
-# Ignore everything
-*
+# Ignore everything related to WAMP
+src/*
 
-# But not these files...
+# But not these files... (related to application)
 !.gitignore
-!www/*
-!scripts
-!js
-!css
+!src/www
+!src/scripts
+!src/js
+!src/css
+
