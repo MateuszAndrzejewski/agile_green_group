@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+//defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
 
@@ -9,7 +9,7 @@ class Auth extends CI_Controller {
 
 		$this->load->helper('form');
     $this->load->library('form_validation');
-		
+
 		$this->load->model('userDAO');
 	}
 
@@ -35,6 +35,16 @@ class Auth extends CI_Controller {
 			redirect('auth/index'); // ekran po zalogowaniu
 		}
 		else redirect('auth/index'); // powrót do strony głównej
+	}
+
+	public function register()
+	{
+		$user = (object)$_POST;
+		$user->role = 'candidate';
+
+		//validation
+
+		$this->userDAO->insert($user);
 	}
 
 
