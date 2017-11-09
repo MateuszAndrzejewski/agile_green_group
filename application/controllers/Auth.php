@@ -23,7 +23,7 @@ class Auth extends CI_Controller {
 	public function login()
 	{
 		$email = $this->input->post('email');
-		$password = $this->input->post('email');
+		$password = $this->input->post('password');
 
 		$user = $this->userDAO->authorize($email, $password);
 
@@ -32,7 +32,7 @@ class Auth extends CI_Controller {
 			$this->session->set_userdata('is_authorized', true);
 			$this->session->set_userdata($user);
 
-			redirect('auth/index'); // ekran po zalogowaniu
+			redirect('auth/hehe'); // ekran po zalogowaniu
 		}
 		else redirect('auth/index'); // powrót do strony głównej
 	}
@@ -47,8 +47,8 @@ class Auth extends CI_Controller {
 				'code' => 403,
 				'type' => 'danger',
 				'icon' => 'glyphicon glyphicon-alert',
-				'title' => '<strong>Błąd: E-mail</strong><br><br>',
-				'body' => 'Podany adres e-mail już istnieje w systemie.'
+				'title' => '<strong>Error: E-mail</strong><br><br>',
+				'body' => 'Specified e-mail address is already in use.'
 			);
 		}
 		else if( !empty($user) )
@@ -63,7 +63,7 @@ class Auth extends CI_Controller {
 				'type' => 'success',
 				'icon' => 'glyphicon glyphicon-ok',
 				'title' => "<strong>".$user['firstname']." ".$user['lastname']."</strong><br><br>",
-				'body' => 'Twoje konto zostało utworzone. Możesz teraz zalogować się do serwisu.'
+				'body' => 'Your account has been created. Now you can log in to the application.'
 			);
 		}
 

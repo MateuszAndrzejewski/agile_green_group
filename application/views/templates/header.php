@@ -197,7 +197,8 @@
 
             }
             else
-              $('#registration-alert-msg').html('<div class="alert alert-danger">' + msg.body + '</div>');
+              $('#registration-alert-msg').html('<div id="error-msg" class="alert alert-danger">' + msg.body + '</div>');
+              $('#error-msg').fadeIn('fast').delay(3000).fadeOut('slow');
           }).fail(function()
           {
             $('#registrationModal').modal('toggle');
