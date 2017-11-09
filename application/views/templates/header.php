@@ -28,6 +28,20 @@
     <script src="<?= base_url('assets/js/tether.min.js'); ?>"></script>
     <script src="<?= base_url('assets/js/bootstrap.min.js'); ?>"></script>
     <script src="<?= base_url('assets/js/bootstrap-notify.min.js'); ?>"></script>
+    <script type="text/javascript">
+
+      $.notifyDefaults({
+        placement: {
+          from: "top",
+          align: "right"
+        },
+        animate:{
+          enter: "animated fadeInUp",
+          exit: "animated fadeOutDown"
+        }
+      });
+
+    </script>
   </head>
 
   <body>
@@ -95,13 +109,13 @@
               <div class="form-group row">
                 <label for="firstname-input" class="col-2 col-form-label">Firstname</label>
                 <div class="col-10">
-                  <input class="form-control" type="text" name="firstname" id="firstname-input" maxlength="64" pattern="[A-Za-z]" required>
+                  <input class="form-control" type="text" name="firstname" id="firstname-input" pattern="^[A-Za-z]{1,64}$" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="lastname-input" class="col-2 col-form-label">Lastname</label>
                 <div class="col-10">
-                  <input class="form-control" type="text" name="lastname" id="lastname-input" maxlength="64" pattern="[A-Za-z]" required>
+                  <input class="form-control" type="text" name="lastname" id="lastname-input" pattern="^[A-Za-z]{1,64}$" required>
                 </div>
               </div>
 
@@ -157,25 +171,47 @@
               password: $('#password-input').val()
           };
 
-          validate();
+          //validate();
 
           $.ajax({
-              url: "<?php echo site_url('auth/register'); ?>",
-              type: 'POST',
-              data: formData,
-              success: function(msg)
-              {
-                $("#register").removeAttr('disabled');
+            type: 'POST',
+            url: "<?php echo site_url('auth/register'); ?>",
+            //contentType: "application/json",
+            dataType: 'json',
+            data: {"user_details" : formData}
+          }).done(function( response )
+          {
+            var msg = jQuery.parseJSON(JSON.stringify(response));
 
-                if (msg == 'YES')
-                  $('#registration-alert-msg').html('<div class="alert alert-success text-center">Your account has been created!</div>');
-                else
-                  $('#registration-alert-msg').html('<div class="alert alert-danger">' + msg + '</div>');
-              },
-              fail: function()
-              {
-                $("#register").removeAttr('disabled');
-              }
+            if (msg.code == 200)
+            {
+              $('#registrationModal').modal('toggle');
+
+              $.notify({
+                icon: msg.icon,
+                title: msg.title,
+                message: msg.body
+              },{
+                type: msg.type
+              });
+
+            }
+            else
+              $('#registration-alert-msg').html('<div class="alert alert-danger">' + msg.body + '</div>');
+          }).fail(function()
+          {
+            $('#registrationModal').modal('toggle');
+
+            $.notify({
+              icon: 'glyphicon glyphicon-alert',
+              title: '<strong>Błąd serwera</strong><br><br>',
+              message: 'Wystąpił nieznany błąd. Serwer nie odpowiada'
+            },{
+              type: 'warning'
+            });
+          }).always(function()
+          {
+            $("#register").removeAttr('disabled');
           });
 
         });

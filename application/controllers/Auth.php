@@ -39,12 +39,35 @@ class Auth extends CI_Controller {
 
 	public function register()
 	{
-		$user = (object)$_POST;
-		$user->role = 'candidate';
+		$user = $_POST['user_details'];
 
-		//validation
+		if( $this->userDAO->is_email_used($user['email']) )
+		{
+			$message = array(
+				'code' => 403,
+				'type' => 'danger',
+				'icon' => 'glyphicon glyphicon-alert',
+				'title' => '<strong>Błąd: E-mail</strong><br><br>',
+				'body' => 'Podany adres e-mail już istnieje w systemie.'
+			);
+		}
+		else if( !empty($user) )
+		{
+			$user['role'] = 'candidate';
+			$user['password'] = hash('sha512', $user['role']);
 
-		$this->userDAO->insert($user);
+			$this->userDAO->insert($user);
+
+			$message = array(
+				'code' => 200,
+				'type' => 'success',
+				'icon' => 'glyphicon glyphicon-ok',
+				'title' => "<strong>".$user['firstname']." ".$user['lastname']."</strong><br><br>",
+				'body' => 'Twoje konto zostało utworzone. Możesz teraz zalogować się do serwisu.'
+			);
+		}
+
+		echo json_encode($message);
 	}
 
 

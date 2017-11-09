@@ -5,12 +5,24 @@ class UserDAO extends CI_Model
 
   public function get($user_id)
   {
-      $this->db->select('*');
-      $query = $this->db->get('user');
+    $this->db->select('*');
+    $query = $this->db->get('user');
 
-      $user = $query->result();
+    $user = $query->result();
 
-      return $user;
+    return $user;
+  }
+
+  public function is_email_used($email)
+  {
+    $this->db->select('*');
+    $this->db->where('email', $email);
+    $query = $this->db->get('user');
+
+    $user = $query->result();
+
+    if( !empty($user) ) return true;
+    else return false;
   }
 
   public function delete($user_id)
