@@ -1,0 +1,11 @@
+component_depth: 2
+languages:
+- php
+exclude:
+- /user_guide/.*
+- /system/.*
+- /database/.*
+- /assets/.*
+- /application/config/.*
+- /application/views/errors/.*
+- /index\.php
