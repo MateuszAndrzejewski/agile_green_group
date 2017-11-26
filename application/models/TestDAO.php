@@ -6,6 +6,7 @@ class TestDAO extends CI_Model
   public function get($test_id)
   {
       $this->db->select('*');
+      $this->db->where('id',$test_id);
       $query = $this->db->get('test');
 
       $test = $query->result();
