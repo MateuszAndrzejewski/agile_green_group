@@ -20,31 +20,64 @@ class Auth extends CI_Controller {
 		$this->load->view('template', $viewData);
 	}
 
+	public function logout()
+	{
+		session_destroy();
+		redirect('auth/index');
+	}
+
 	public function login()
 	{
-		$email = $this->input->post('email');
-		$password = $this->input->post('email');
+		$email = $_POST['user_details']['email'];
+		$password = $_POST['user_details']['password'];
 
 		$user = $this->userDAO->authorize($email, $password);
 
 		if( !empty($user) )
 		{
 			$this->session->set_userdata('is_authorized', true);
-			$this->session->set_userdata($user);
+			$this->session->set_userdata('firstname', $user->firstname);
+			$this->session->set_userdata('lastname', $user->lastname);
+			$this->session->set_userdata('email', $user->email);
 
-			redirect('auth/index'); // ekran po zalogowaniu
+			$response = array('url' => site_url('mainpage/index'));
 		}
-		else redirect('auth/index'); // powrót do strony głównej
+		else $response = array('url' => site_url('auth/index'));
+
+		echo json_encode($response);
 	}
 
 	public function register()
 	{
-		$user = (object)$_POST;
-		$user->role = 'candidate';
+		$user = $_POST['user_details'];
 
-		//validation
+		if( $this->userDAO->is_email_used($user['email']) )
+		{
+			$message = array(
+				'code' => 403,
+				'type' => 'danger',
+				'icon' => 'glyphicon glyphicon-alert',
+				'title' => '<strong>Error: E-mail</strong><br><br>',
+				'body' => 'Specified e-mail address is already in use.'
+			);
+		}
+		else if( !empty($user) )
+		{
+			$user['role'] = 'candidate';
+			$user['password'] = hash('sha512', $user['role']);
 
-		$this->userDAO->insert($user);
+			$this->userDAO->insert($user);
+
+			$message = array(
+				'code' => 200,
+				'type' => 'success',
+				'icon' => 'glyphicon glyphicon-ok',
+				'title' => "<strong>".$user['firstname']." ".$user['lastname']."</strong><br><br>",
+				'body' => 'Your account has been created. Now you can log in to the application.'
+			);
+		}
+
+		echo json_encode($message);
 	}
 
 

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 -- TABLES
 -- Table: job_offer
 CREATE TABLE job_offer (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     ref_test int NULL,
     position varchar(64) NOT NULL,
     description text NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE job_offer (
 
 -- Table: permissions
 CREATE TABLE permissions (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     ref_test int NOT NULL,
     ref_user int NOT NULL,
     permission varchar(4) NOT NULL COMMENT '[creator, edit, view]',
@@ -30,7 +30,7 @@ CREATE TABLE permissions (
 
 -- Table: question
 CREATE TABLE question (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     ref_test int NOT NULL,
     type varchar(32) NOT NULL COMMENT '[open, choice, scale]',
     title varchar(512) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE question (
 
 -- Table: submission
 CREATE TABLE submission (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     ref_job_offer int NOT NULL,
     ref_test int NOT NULL,
     ref_user int NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE submission (
 
 -- Table: submission_answer
 CREATE TABLE submission_answer (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     ref_submission int NOT NULL,
     ref_question int NOT NULL,
     answer text NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE submission_answer (
 
 -- Table: test
 CREATE TABLE test (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     title int NOT NULL,
     locale varchar(2) NOT NULL COMMENT 'ISO 3166-1-alpha-2 code',
     is_active tinyint(1) NOT NULL COMMENT '1 for active, 0 for inactive',
@@ -68,7 +68,7 @@ CREATE TABLE test (
 
 -- Table: user
 CREATE TABLE user (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     role varchar(64) NOT NULL DEFAULT 'candidate' COMMENT '[moderator, test_editor, candidate]',
     email varchar(128) NOT NULL,
     password varchar(128) NOT NULL,
@@ -115,4 +115,3 @@ ALTER TABLE submission ADD CONSTRAINT submission_user FOREIGN KEY submission_use
     REFERENCES user (id);
 
 -- End of file.
-
