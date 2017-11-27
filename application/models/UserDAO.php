@@ -6,6 +6,7 @@ class UserDAO extends CI_Model
   public function get($user_id)
   {
     $this->db->select('*');
+    $this->db->where('id', $user_id);
     $query = $this->db->get('user');
 
     $user = $query->result();
@@ -52,10 +53,12 @@ class UserDAO extends CI_Model
   public function authorize($email, $password)
   {
       $this->db->select('*');
-      $query = $this->db->get_where('mytable', array('email' => $email, 'password' => $password), 1);
+      $this->db->where('email', $email);
+      $this->db->where('password = sha2("'.$password.'", 512)');
+      $query = $this->db->get('user');
 
-      $user = $query->result();
-
+      $user = $query->result()[0];
+      
       return $user;
   }
 

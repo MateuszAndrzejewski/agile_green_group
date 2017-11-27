@@ -75,22 +75,34 @@
         </ul>
 
         <?php
-          if( empty($_SESSION['is_logged']) || $_SESSION['is_logged'] === false )
+          if( empty($_SESSION['is_authorized']) || $_SESSION['is_authorized'] === false )
           {
         ?>
-          <form class="form-inline my-2 my-lg-0" action="#" method="post">
-            <input name="email" class="form-control mr-sm-2" type="email" placeholder="E-mail" required>
-            <input name="password" class="form-control mr-sm-2" type="password" placeholder="Password" required>
+          <form id="loginForm" class="form-inline my-2 my-lg-0" method="post">
+            <input id="email" name="email" class="form-control mr-sm-2" type="email" placeholder="E-mail" required>
+            <input id="password" name="password" class="form-control mr-sm-2" type="password" placeholder="Password" required>
             <button id="login" class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in</button>
           </form>
           <button class="btn btn-outline-primary my-2 my-sm-0" style="margin-left: 10px;" data-toggle="modal" data-target="#registrationModal">Register</button>
+        <?php
+          }
+          else
+          {
+        ?>
+        <li class="nav-item navbar-nav navbar-right">
+          <button id="userPanel" class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-user"></i>  <?=$_SESSION['firstname']." ".$_SESSION['lastname']?></button>
+        </li>
+        <li class="nav-item navbar-nav navbar-right">
+          <button id="logout" class="btn btn-outline-danger my-2 my-sm-0" style="margin-left: 10px;"><i class="fa fa-power-off"></i>  Logout</button>
+        </li>
+
         <?php
           }
         ?>
       </div>
     </nav>
     <?php
-      if( empty($_SESSION['is_logged']) || $_SESSION['is_logged'] === false )
+      if( empty($_SESSION['is_authorized']) || $_SESSION['is_authorized'] === false )
       {
     ?>
       <!-- Registration Form -->
@@ -216,7 +228,54 @@
           });
 
         });
+
+        $("#loginForm").submit(function(e)
+        {
+          e.preventDefault();
+          $("#login").attr('disabled', 'disabled');
+
+          var formData = {
+              email: $('#email').val(),
+              password: $('#password').val()
+          };
+
+          $.ajax({
+            type: 'POST',
+            url: "<?php echo site_url('auth/login'); ?>",
+            //contentType: "application/json",
+            dataType: 'json',
+            data: {"user_details" : formData}
+          }).done(function( response )
+          {
+            var msg = jQuery.parseJSON(JSON.stringify(response));
+            console.log(msg);
+            window.location.href = msg.url;
+          }).fail(function()
+          {
+            $.notify({
+              icon: 'glyphicon glyphicon-alert',
+              title: '<strong>Błąd</strong><br><br>',
+              message: 'Podano nieprawidłowe dane logowania.'
+            },{
+              type: 'warning'
+            });
+          }).always(function()
+          {
+            $("#login").removeAttr('disabled');
+          });
+
+        });
       </script>
+    <?php
+      }
+      else
+      {
+    ?>
+    <script>
+    $("#logout").click(function() {
+      window.location.href = "<?=site_url('auth/logout')?>";
+    });
+    </script>
     <?php
       }
     ?>
