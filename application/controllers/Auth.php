@@ -39,6 +39,7 @@ class Auth extends CI_Controller {
 			$this->session->set_userdata('firstname', $user->firstname);
 			$this->session->set_userdata('lastname', $user->lastname);
 			$this->session->set_userdata('email', $user->email);
+			$this->session->set_userdata('role', $user->role);
 
 			$response = array('url' => site_url('mainpage/index'));
 		}

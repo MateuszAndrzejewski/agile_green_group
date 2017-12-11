@@ -1,13 +1,17 @@
 <?php
 
-class JobOfferDAO extends CI_Model
+class JobofferDAO extends CI_Model
 {
 
-  public function get($job_offer_id)
+  public function get($job_offer_id = null, $is_active = null)
   {
-      $this->db->select('*');
-      $this->db->where('id',$job_offer_id);
-      $query = $this->db->get('job_offer');
+      $this->db->select('jo.*, t.title, t.locale');
+
+      if($job_offer_id !== null) $this->db->where('jo.id',$job_offer_id);
+      if($is_active !== null) $this->db->where('jo.status',1);
+
+      $this->db->join('test t', 't.id=jo.ref_test', 'left');
+      $query = $this->db->get('job_offer jo');
 
       $job_offer = $query->result();
 
@@ -21,8 +25,7 @@ class JobOfferDAO extends CI_Model
 
   public function insert($job_offer)
   {
-    $this->db->set($job_offer);
-    $this->db->insert('job_offer');
+    $this->db->insert('job_offer', $job_offer);
 
     return $this->db->insert_id();
   }
@@ -32,8 +35,15 @@ class JobOfferDAO extends CI_Model
     if( is_object($job_offer_id) ) $id = $job_offer_id->id;
     else if( is_array($job_offer_id) ) $id = $job_offer_id['id'];
 
-    $this->db->set($job_offer);
     $this->db->where('id', $job_offer_id);
+
+    $this->db->update('job_offer');
+  }
+
+  public function change_status($id, $status)
+  {
+    $this->db->set('is_active', $status);
+    $this->db->where('id', $id);
 
     $this->db->update('job_offer');
   }
@@ -45,3 +55,4 @@ class JobOfferDAO extends CI_Model
     $this->db->where('id', $job_offer_id);
     $this->db->update('job_offer');
   }
+}

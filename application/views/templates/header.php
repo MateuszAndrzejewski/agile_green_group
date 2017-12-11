@@ -59,9 +59,23 @@
             <a class="nav-link" href="#"><i class="fa fa-home fa-2x"></i></a>
           </li>
           -->
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Job Offers</a>
-          </li>
+          <?php
+            if( !empty($_SESSION['is_authorized']) )
+            {
+          ?>
+            <?php
+              if( $_SESSION['is_authorized'] === true && $_SESSION['role'] === 'moderator')
+              {
+            ?>
+              <li class="nav-item">
+                <a class="nav-link" href="<?=site_url("JobOffer/list");?>">Manage Job Offers</a>
+              </li>
+            <?php
+              }
+            ?>
+          <?php
+            }
+          ?>
           <!--
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
