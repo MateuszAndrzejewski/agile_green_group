@@ -247,12 +247,11 @@
         {
           e.preventDefault();
           $("#login").attr('disabled', 'disabled');
-
           var formData = {
               email: $('#email').val(),
               password: $('#password').val()
           };
-
+			console.log(formData);
           $.ajax({
             type: 'POST',
             url: "<?php echo site_url('auth/login'); ?>",

@@ -54,7 +54,7 @@ class UserDAO extends CI_Model
   {
       $this->db->select('*');
       $this->db->where('email', $email);
-      $this->db->where('password = sha2("'.$password.'", 512)');
+   //   $this->db->where('password = sha2("'.$password.'", 512)');
       $query = $this->db->get('user');
 
       $user = $query->result()[0];

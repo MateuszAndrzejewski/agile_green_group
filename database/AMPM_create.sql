@@ -60,7 +60,7 @@ CREATE TABLE submission_answer (
 -- Table: test
 CREATE TABLE test (
     id int NOT NULL AUTO_INCREMENT,
-    title int NOT NULL,
+    title varchar(512) NOT NULL,
     locale varchar(2) NOT NULL COMMENT 'ISO 3166-1-alpha-2 code',
     is_active tinyint(1) NOT NULL COMMENT '1 for active, 0 for inactive',
     CONSTRAINT test_pk PRIMARY KEY (id)

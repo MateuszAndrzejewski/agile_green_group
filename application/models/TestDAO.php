@@ -38,7 +38,7 @@ class TestDAO extends CI_Model
     $this->db->update('test');
   }
 
-  public function activateTest($testId, $isActive)
+  public function change_status($testId, $isActive)
   {
     $this->db->set('is_active', $isActive);
     $this->db->where('id', $testId);
