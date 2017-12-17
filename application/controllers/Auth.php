@@ -32,7 +32,6 @@ class Auth extends CI_Controller {
 		$password = $_POST['user_details']['password'];
 
 		$user = $this->userDAO->authorize($email, $password);
-
 		if( !empty($user) )
 		{
 			$this->session->set_userdata('is_authorized', true);

@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<?php echo $this->session->role?>
     <div class="jumbotron">
       <div class="container">
-        <h1 class="display-3">Hello, Candidate!</h1>
+      	<h1 class="display-3">Hello, Candidate!</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci nulla pellentesque dignissim enim sit. Magna sit amet purus gravida quis blandit.</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
