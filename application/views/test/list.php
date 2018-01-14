@@ -2,7 +2,7 @@
   <h2>Manage Tests</h2>
 
   <div class="actionbar" style="margin-top:20px;margin-bottom:40px;text-align:right;margin-right:0px;">
-    <a type="button" class="btn btn-success" href="<?=site_url("Test/add/");?>">Add new</a>
+    <a type="button" class="btn btn-success" href="<?=site_url("Test/add");?>">Add new</a>
   </div>
 
   <table class="table table-striped">
@@ -12,6 +12,7 @@
         <th>Locale</th>
         <th>Active</th>
         <th>Actions</th>
+        <th>Download</th>
       </tr>
     </thead>
     <tbody>
@@ -37,6 +38,17 @@
           </a>
           <a type="button" class="btn btn-info" href="<?=site_url("test/edit/$test->id");?>">
             Edit
+          </a>
+        </td>
+        <td>
+          <a type="button" class="btn btn-success" href="<?=site_url("Test/getPDF/$test->id");?>">
+            Download in PDF
+          </a>
+          <a type="button" class="btn btn-success" href="<?=site_url("Test/getCSV/$test->id");?>">
+            Download in CSV
+          </a>
+          <a type="button" class="btn btn-success" href="<?=site_url("Test/getXLS/$test->id");?>">
+            Download in XLS
           </a>
         </td>
       </tr>

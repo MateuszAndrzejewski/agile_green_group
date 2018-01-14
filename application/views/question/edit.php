@@ -3,32 +3,32 @@
 
 
 <form method="post" action="<?=site_url("question/delete");?>">
-<?php
+<?php 
   	if ($question !== '') {
 		foreach ($question as $row)
 		{
      ?>
 
 	<input type="hidden" name="question_id" value="<?=$row->id?>"/>
-	<?php
+	<?php 
 		}
   	}
 ?>
 <button type="submit" class="btn btn-danger">Delete</button>
 </form>
   <form method="post" action="<?=site_url("question/update");?>">
-  <?php
+  <?php 
   	if ($question !== '') {
 		foreach ($question as $row)
 		{
      ?>
-
+     
 	<input type="hidden" name="ref_test" value="<?=$row->ref_test?>"/>
 	<input type="hidden" name="question_id" value="<?=$row->id?>"/>
-
+	
     <div class="form-group">
       <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" name="title" value=<?= $row->title?>>
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title" value=<?= $row->title?>>
     </div>
 
 	<div class="form-group">

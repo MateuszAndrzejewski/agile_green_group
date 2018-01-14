@@ -3,12 +3,12 @@
 
   <form method="post" action="<?=site_url("Question/create");?>">
 	<input type="hidden" id="ref_test" name="ref_test" value=<?=$test_id?>/>
-
+    
     <div class="form-group">
       <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" name="title">
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title">
     </div>
-
+    
 	<div class="form-group">
 		<label>Type</label>
 		<select id="type" name="type">
