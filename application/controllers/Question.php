@@ -23,7 +23,7 @@ class Question extends CI_Controller {
 		$viewData = array();
     	$viewData['questions'] = $this->questionDAO->get($test_id);
     	$viewData['test'] = $test_id;
-
+    	
 		$viewData['view'] = "question/list";
 		$this->load->view('template', $viewData);
 	}
@@ -36,7 +36,6 @@ class Question extends CI_Controller {
 		$viewData['test_id'] = $test_id;
 		$this->load->view('template', $viewData);
 	}
-
 	public function edit($question_id)
 	{
 		$viewData = array();
@@ -48,26 +47,26 @@ class Question extends CI_Controller {
 			$viewData['question'] = "";
 			$viewData['hoho'] = "hoho";
 		}
-
+	
 		$viewData['view'] = 'question/edit';
 		$this->load->view('template', $viewData);
 	}
-
+	
 	public function update()
 	{
 		$question = array();
-
+	
 		$question['ref_test'] = $_POST['ref_test'];
 		$test_id = $_POST['ref_test'];
 		$question['type'] = $_POST['type'];
 		$question['title'] = $_POST['title'];
 		$question['content'] = $_POST['content'];
 		$question['id'] = $_POST['question_id'];
-
+	
 		$this->questionDAO->update($question);
 		redirect("question/list/$test_id");
 	}
-
+	
 	public function create()
 	{
 		$question = array();
@@ -77,16 +76,16 @@ class Question extends CI_Controller {
 		$question['type'] = $_POST['type'];
 		$question['title'] = $_POST['title'];
 		$question['content'] = $_POST['content'];
-
+		
 		$this->questionDAO->insert($question);
 		redirect("Question/list/$test_id");
 	}
 	public function delete()
 	{
 		$test = array();
-
+	
 		$question_id = $_POST['question_id'];
-
+	
 		$this->questionDAO->delete($question_id);
 		redirect('Test/list');
 	}

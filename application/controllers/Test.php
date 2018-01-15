@@ -1,6 +1,6 @@
 <?php
 //defined('BASEPATH') OR exit('No direct script access allowed');
-
+require('fpdf.php');
 class Test extends CI_Controller {
 
 	public function __construct()
@@ -92,5 +92,113 @@ class Test extends CI_Controller {
 		$this->testDAO->delete($testId);
 		redirect('Test/list');
 	}
+	public function getPDF($test_id) {
+		$pdf = new FPDF('P','mm','A4');
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',16);
+		$test = $this->testDAO->get($test_id);
+		$title = $test[0]->title;
+		$locale = $test[0]->locale;
+		$active = $test[0]->is_active == 1 ? "Yes" : "No";
+		$questions = $this->questionDAO->get($test_id);
+		
+		$pdf->Cell(0,10, $title,0,1,'C');
+		$pdf->Cell(0,10,'Locale: ' . $locale,0,1,'L');
+		$pdf->Cell(0,10,'Activated: ' . $active,0,1,'L');
+		
+		$iterator = 0;
+		foreach($questions as $question) {
+			$iterator ++;
+			$type = $question->type;
+			$title = $question->title;
+			$content = $question->content;
+			
+			$stringToInsert = $iterator . ". " . $title . " (" . $type .  "): " . $content;
+			$pdf->Cell(0,10,$stringToInsert,0,1,'L');
+		}
+		
+		$pdf->Output();
+	}
+	public function getCSV($test_id) {
+		header('Content-Type: application/excel');
+		header('Content-Disposition: attachment; filename="test.csv"');
+		
+
+		$test = $this->testDAO->get($test_id);
+		$title = $test[0]->title;
+		$locale = $test[0]->locale;
+		$active = $test[0]->is_active == 1 ? "Yes" : "No";
+		$questions = $this->questionDAO->get($test_id);
+		$fp = fopen('php://output', 'w');
+		
+		$data = array(
+				"title: ". $title . ",locale: " .$locale . ",Activated: " . $active . "" 
+		);
+		array_push($data, " ");
+		array_push($data, "no.,title,type,content");
+		$iterator = 0;
+		foreach($questions as $question) {
+			$iterator ++;
+			$type = $question->type;
+			$title = $question->title;
+			$content = $question->content;
+				
+			$stringToInsert = $iterator . "," . $title . "," .$type . "," . $content;
+			array_push($data, $stringToInsert);
+			
+		}
+		
+		foreach ( $data as $line ) {
+		    $val = explode(",", $line);
+		    fputcsv($fp, $val);
+		}
+		fclose($fp);
+	}
+	public function getXLS($test_id) {
+		header ( "Content-type: application/vnd.ms-excel" );
+		header ( "Content-Disposition: attachment; filename=test.xls" );
+		
+		$returnHTML = "<table>";
+		
+		$test = $this->testDAO->get($test_id);
+		$title = $test[0]->title;
+		$locale = $test[0]->locale;
+		$active = $test[0]->is_active == 1 ? "Yes" : "No";
+		$questions = $this->questionDAO->get($test_id);
+
+		$data = array(
+				"title: ". $title . ",locale: " .$locale . ",Activated: " . $active . ""
+		);
+		array_push($data, " ");
+		array_push($data, "no.,title,type,content");
+		$iterator = 0;
+		foreach($questions as $question) {
+			$iterator ++;
+			$type = $question->type;
+			$title = $question->title;
+			$content = $question->content;
+		
+			$stringToInsert = $iterator . "," . $title . "," .$type . "," . $content;
+			array_push($data, $stringToInsert);
+				
+		}
+		
+
+		foreach ( $data as $line ) {
+			$val = explode(",", $line);
+			$returnHTML = $returnHTML . '<tr>';
+			
+			foreach ($val as $cell) {
+				$returnHTML = $returnHTML . '<td>';
+				$returnHTML = $returnHTML  . $cell;
+				$returnHTML = $returnHTML . '</td>';
+			}
+			$returnHTML = $returnHTML . '</tr>';
+		}
+		
+		$returnHTML = $returnHTML . "</table>";
+		
+		echo $returnHTML;
+		}
 
 }
