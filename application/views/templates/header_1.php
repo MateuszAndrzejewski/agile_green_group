@@ -20,7 +20,7 @@
     <link href="<?= base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/font-awesome.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/animate.css'); ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/css/bootstrap-formhelpers.min.css'); ?>" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="<?= base_url('assets/css/main.css'); ?>" rel="stylesheet">
 
@@ -28,8 +28,6 @@
     <script src="<?= base_url('assets/js/tether.min.js'); ?>"></script>
     <script src="<?= base_url('assets/js/bootstrap.min.js'); ?>"></script>
     <script src="<?= base_url('assets/js/bootstrap-notify.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/js/select.js'); ?>"></script>
-    <script src="<?= base_url('assets/js/bootstrap-formhelpers.min.js'); ?>"></script>
     <script type="text/javascript">
 
       $.notifyDefaults({
