@@ -38,6 +38,9 @@
           <a type="button" class="btn btn-info" href="<?=site_url("test/edit/$test->id");?>">
             Edit
           </a>
+		  <a type="button" class="btn btn-info" href="<?=site_url("Grading/list/$test->id");?>">
+            View submissions
+          </a>
         </td>
       </tr>
       <?php
